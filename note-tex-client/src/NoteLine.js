@@ -1,18 +1,20 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector, useStore} from 'react-redux';
 import {beginEdit, endEdit, addNewLine} from './LineActions'
+import './noteLine.css';
 
 export function NoteLine(props){
   const noteLine = props.noteLine;
   const dispatch = useDispatch();
   const [lineContents, setLineContents] = useState(noteLine.lineContents);
-  const [lineCount, setlineCount] = useState(props.lineCount);
+  const lineCount = props.lineCount
 
   const onBeginEdit = () =>{
     dispatch(beginEdit(noteLine.lineNumber));
   }
 
   const onEndEdit = (keyCode) =>{
+
     if(keyCode === 13){
       dispatch(endEdit({lineNumber:noteLine.lineNumber, lineContents:lineContents}));
       if(noteLine.lineNumber === lineCount && lineContents !== ""){
@@ -24,13 +26,17 @@ export function NoteLine(props){
 
   if(noteLine.isEditing){
     return(
-      <textarea value={lineContents} onKeyDown={event => onEndEdit(event.keyCode)} onChange={e => {setLineContents(e.target.value)}} classname="lineBox" ref={input => input && input.focus()}/>
+      <span className="lineArea">
+        <input className="lineBox" value={lineContents} onBlur={() => onEndEdit(13)} onKeyDown={event => onEndEdit(event.keyCode)} onChange={e => {setLineContents(e.target.value)}} ref={input => input && input.focus()}/>
+      </span>
     )
   }else{
     return(
-      <button onClick={onBeginEdit} className="NoteLine">
-        {lineContents}
-      </button>
+      <span className="lineArea">
+        <div onClick={onBeginEdit} className="noteText">
+          {lineContents} : {noteLine.lineNumber} / {lineCount}
+        </div>
+      </span>
     )
   }
 }
