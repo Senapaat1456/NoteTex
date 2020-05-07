@@ -1,0 +1,28 @@
+.header{
+  border: 2px black solid;
+  margin: 0;
+  height: 15%;
+}
+.leftMargin,.rightMargin{
+  border: 2px black solid;
+  margin: 0;
+  width: 15%;
+}
+.body{
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  width: 70%
+}
+.middle{
+  display: flex;
+  flex-grow: row;
+  height: 85%;
+}
+.App{
+  display: flex;
+  flex-direction: column;
+}
+.title{
+  text-align: center;
+}
