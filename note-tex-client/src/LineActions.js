@@ -21,10 +21,10 @@ export function endEdit(noteLine, lineCount){
   };
 }
 
-export function addNewLine(lineCount){
-  return{
+export function addNewLine(location){
+    return{
     type: Action.AddNewLine,
-    payload: lineCount,
+    payload: location,
   }
 }
 

@@ -17,6 +17,10 @@ function App() {
   useEffect(() =>{
     dispatch(loadLine({lineNumber: 1}))
   },[dispatch]);
+
+  //alert("Pre-sort:" + JSON.stringify(noteLines))
+  const sortedLines = Object.values(noteLines).sort((a,b) => a.lineNumber - b.lineNumber);
+  //alert("Post-sort:" + JSON.stringify(noteLines))
   return (
     <div className="App">
 
@@ -27,11 +31,11 @@ function App() {
       <div className="middle">
 
         <div className="leftMargin">
-          {currentLine.lineContents}
+          {sortedLines.length}
         </div>
 
         <div className="body">
-          {noteLines.map(line => <NoteLine key={line.lineNumber} lineCount={lineCount} noteLine={line}/>)}
+           {sortedLines.map(line => <NoteLine key={line.lineNumber} lineCount={lineCount} noteLine={line}/>)}
         </div>
 
         <div className="rightMargin">

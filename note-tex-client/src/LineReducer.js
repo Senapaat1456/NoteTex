@@ -48,12 +48,42 @@ function reducer(state = initialState, action){
       }
 
 
-    case Action.AddNewLine:
+    /*case Action.AddNewLine:
+    const temp = {lineNumber:action.payload+1, lineContents:"New Line...", isEditing:true}
       return{
         ...state,
-         noteLines: [...state.noteLines, {lineNumber:state.lineCount+1,lineContents:""}],
-         lineCount:state.lineCount+1
-      }
+         noteLines:[(state.noteLines.map(line =>{
+           if(line.lineNumber <= action.payload){
+             return{...line, lineNumber:line.lineNumber}
+           }
+           else{
+             return{...line, lineNumber:line.lineNumber+1}
+           }
+         })).push(temp)
+         ,lineCount:state.lineCount+1
+      }*/
+
+      case Action.AddNewLine:
+        console.log("Old: " + JSON.stringify(state.noteLines) + ", type: " + typeof(state.noteLines));
+        const temp = {lineNumber:action.payload+1, lineContents:"", isEditing:true}
+        const oldList = state.noteLines.map(line =>{
+          console.log("a Line: "+ JSON.stringify(line))
+          if(line.lineNumber <= action.payload){
+            return{...line}
+          }
+          else{
+            console.log(line.lineNumber)
+            var ii = line.lineNumber+1;
+            return{...line, lineNumber:ii}
+          }
+        })
+        console.log("New: " + JSON.stringify(oldList) + ", type: " + typeof(oldList));
+        console.log("final: " + JSON.stringify(([oldList,temp]).flat()))
+        return{
+          ...state,
+           noteLines: ([oldList,temp]).flat()
+           ,lineCount:state.lineCount+1
+        }
 
 
     default:

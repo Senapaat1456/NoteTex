@@ -13,21 +13,25 @@ export function NoteLine(props){
     dispatch(beginEdit(noteLine.lineNumber));
   }
 
-  const onEndEdit = (keyCode) =>{
-
-    if(keyCode === 13){
-      dispatch(endEdit({lineNumber:noteLine.lineNumber, lineContents:lineContents}));
-      if(noteLine.lineNumber === lineCount && lineContents !== ""){
-        dispatch(addNewLine(lineCount))
-        dispatch(beginEdit(lineCount+1))
-      }
+  const onEndEdit = (typeOfExit) =>{
+    dispatch(endEdit({lineNumber:noteLine.lineNumber, lineContents:lineContents}));
+    if(lineContents !== "" && typeOfExit === "ENTER"){
+      dispatch(addNewLine(noteLine.lineNumber));
     }
   }
+
+
+
+const processesKeyPress = (keyCode) =>{
+  if(keyCode === 13){
+    onEndEdit("ENTER");
+  }
+}
 
   if(noteLine.isEditing){
     return(
       <span className="lineArea">
-        <input className="lineBox" value={lineContents} onBlur={() => onEndEdit(13)} onKeyDown={event => onEndEdit(event.keyCode)} onChange={e => {setLineContents(e.target.value)}} ref={input => input && input.focus()}/>
+        <input className="lineBox" default={lineContents} onBlur={() => onEndEdit("CURSER")} onKeyDown={event => processesKeyPress(event.keyCode)} onChange={e => {setLineContents(e.target.value)}} ref={input => input && input.focus()}/>
       </span>
     )
   }else{
