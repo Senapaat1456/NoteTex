@@ -14,7 +14,7 @@ export function beginEdit(lineNumber){
   };
 }
 
-export function endEdit(noteLine, lineCount){
+export function endEdit(noteLine){
   return{
     type: Action.EndEdit,
     payload: noteLine,

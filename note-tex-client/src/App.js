@@ -2,25 +2,24 @@ import React, {useEffect} from 'react';
 import './App.css';
 import {useDispatch,useSelector} from 'react-redux';
 import {NoteLine} from './NoteLine';
-import {loadLine, endEdit, incrementLineCount} from './LineActions'
-
-
+import {loadLine, endEdit} from './LineActions';
+import {store} from './LineStore';
 
 function App() {
 
 
   const noteLines = useSelector(state => state.noteLines);
-  const currentLine = useSelector(state => state.currentLine);
   const lineCount = useSelector(state => state.lineCount);
   const dispatch = useDispatch();
 
   useEffect(() =>{
-    dispatch(loadLine({lineNumber: 1}))
-  },[dispatch]);
+    dispatch(loadLine({lineNumber: 1, lineContents: ""}))
+  },[]);
 
-  //alert("Pre-sort:" + JSON.stringify(noteLines))
-  const sortedLines = Object.values(noteLines).sort((a,b) => a.lineNumber - b.lineNumber);
-  //alert("Post-sort:" + JSON.stringify(noteLines))
+  //console.log("Pre-sort:" + JSON.stringify(noteLines))
+  //console.log(store.getState())
+  //const sortedLines = Object.values(noteLines).sort((a,b) => a.lineNumber - b.lineNumber);
+  //console.log("Post-sort:" + JSON.stringify(noteLines))
   return (
     <div className="App">
 
@@ -31,11 +30,11 @@ function App() {
       <div className="middle">
 
         <div className="leftMargin">
-          {sortedLines.length}
+          {noteLines.length}
         </div>
 
         <div className="body">
-           {sortedLines.map(line => <NoteLine key={line.lineNumber} lineCount={lineCount} noteLine={line}/>)}
+           {noteLines.map(line => <NoteLine key={line.lineNumber + line.lineContents}lineCount={lineCount} noteLine={line}/>)}
         </div>
 
         <div className="rightMargin">

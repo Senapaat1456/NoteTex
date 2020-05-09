@@ -7,6 +7,8 @@
   border: 2px black solid;
   margin: 0;
   width: 15%;
+  height: 100%;
+
 }
 .body{
   display: flex;
@@ -17,10 +19,11 @@
 }
 .middle{
   display: flex;
-  height: 85%;
+  flex-grow: 1;
 }
 .App{
   display: flex;
+  flex-flow: column;
   flex-direction: column;
 }
 .title{
