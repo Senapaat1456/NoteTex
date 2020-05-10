@@ -4,6 +4,7 @@ import {useDispatch,useSelector} from 'react-redux';
 import {NoteLine} from './NoteLine';
 import {loadLine, endEdit} from './LineActions';
 import {store} from './LineStore';
+import MathJax from 'react-mathjax';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
   //console.log(store.getState())
   //const sortedLines = Object.values(noteLines).sort((a,b) => a.lineNumber - b.lineNumber);
   //console.log("Post-sort:" + JSON.stringify(noteLines))
+  var temp = "Equation: $(3\\times 4) \\div (5-3)$"
   return (
     <div className="App">
 
@@ -38,7 +40,7 @@ function App() {
         </div>
 
         <div className="rightMargin">
-          Number of Lines: {lineCount}
+        
         </div>
 
       </div>
