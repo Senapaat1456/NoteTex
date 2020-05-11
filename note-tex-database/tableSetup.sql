@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE noteSheets(
     noteSheet_id SERIAL PRIMARY KEY,
-    useCreator TEXT,
+    userCreator VARCHAR(30),
     lineCount INT,
     contents TEXT,
     isDeleted INT DEFAULT 0,
@@ -14,5 +14,5 @@ CREATE TABLE noteSheets(
 
 CREATE TABLE users(
     userId SERIAL PRIMARY KEY,
-    userName TEXT
+    userName VARCHAR(30)
 );
