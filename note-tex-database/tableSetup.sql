@@ -8,11 +8,11 @@ CREATE TABLE users(
 
 CREATE TABLE noteSheets(
     noteSheet_id SERIAL PRIMARY KEY,
-    userCreator VARCHAR(30),
+    userCreator BIGINT UNSIGNED,
     lineCount INT,
     contents TEXT,
     isDeleted INT DEFAULT 0,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (userCreator) REFERENCES users(userName)
+    FOREIGN KEY (userCreator) REFERENCES users(userId)
 );
