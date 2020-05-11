@@ -1,3 +1,3 @@
 #!/bin/bash
-mysql -u root -p < databaseSetup.sql
-mysql -u noteTexDatebaseUser -p noteTexDatabase < tableSetup.sql
+sudo mysql < databaseSetup.sql
+sudo mysql noteTexDatabase < tableSetup.sql

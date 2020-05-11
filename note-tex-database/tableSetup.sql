@@ -12,5 +12,5 @@ CREATE TABLE noteSheets(
 
 CREATE TABLE users(
     user_id SERIAL PRIMARY KEY,
-    user_name TEXTS
+    user_name TEXT
 );
