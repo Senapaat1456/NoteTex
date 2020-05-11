@@ -4,7 +4,8 @@ export const Action = Object.freeze({
   EndEdit: 'EndEdit',
   LoadLine: 'LoadLine',
   IncrementLineCount: 'IncrementLineCount',
-  AddNewLine:'AddNewLine'
+  AddNewLine:'AddNewLine',
+  RemoveLine:'removeLine'
 })
 
 export function beginEdit(lineNumber){
@@ -39,6 +40,13 @@ export function incrementLineCount(){
   return{
     type: Action.IncrementLineCount,
     payload: null
+  }
+}
+
+export function removeLine(noteLine){
+  return{
+    type: Action.RemoveLine,
+    payload: noteLine
   }
 }
 

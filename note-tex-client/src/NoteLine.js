@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import {useDispatch, useSelector, useStore} from 'react-redux';
-import {beginEdit, endEdit, addNewLine} from './LineActions'
+import {beginEdit, endEdit, addNewLine, removeLine} from './LineActions'
 import ReactDOMServer from 'react-dom/server';
 import './noteLine.css';
 import MathJax from 'react-mathjax';
@@ -31,6 +31,15 @@ export function NoteLine(props){
     }
   }
 
+  const onRemoveLine = () =>{
+    if(lineCount != 1){
+      dispatch(removeLine(noteLine));
+    }
+    if(noteLine.lineNumber != 1){
+      dispatch(beginEdit(noteLine.lineNumber - 1));
+    }
+  }
+
 const onUpArrow = () => {
   if(noteLine.lineNumber != 1){
     dispatch(endEdit({lineNumber:noteLine.lineNumber, lineContents:lineContents}));
@@ -56,13 +65,16 @@ const processesKeyPress = (keyCode) =>{
   else if(keyCode === 40){
     onDownArrow();
   }
+  else if(keyCode === 8 && (lineContents === "" || lineContents == null)){
+      onRemoveLine();
+  }
 
 }
   const input = 'This **textbolded** a header';
   if(noteLine.isEditing){
     return(
       <span className="lineArea">
-        ><input className="lineBox" contentEditable="true"  value={lineContents} onBlur={() => onEndEdit("CURSER")} onKeyDown={event => processesKeyPress(event.keyCode)} onChange={e => {setLineContents(e.target.value)}} ref={input => input && input.focus()}/>
+        <input className="inputBox" contentEditable="true"  value={lineContents} onBlur={() => onEndEdit("CURSER")} onKeyDown={event => processesKeyPress(event.keyCode)} onChange={e => {setLineContents(e.target.value)}} ref={input => input && input.focus()}/>
       </span>
     )
   }else{
@@ -107,7 +119,7 @@ const processesKeyPress = (keyCode) =>{
     //var ReactDOMServer = require('react-dom/server');
     [finalStructure, x] = markdownParser(parsedLineContents,null);
        //alert(lineContents + " : " + ReactDOMServer.renderToStaticMarkup(finalStructure))
-    var lineOutput = <div onClick={onBeginEdit}> > <span onClick={onBeginEdit} style={{fontSize:fontSizeArray[headerLevel]}} className ="noteText"> {finalStructure} </span> </div>
+    var lineOutput = <span onClick={onBeginEdit} style={{fontSize:fontSizeArray[headerLevel]}} className ="noteText"> {finalStructure} </span>
 
 
 

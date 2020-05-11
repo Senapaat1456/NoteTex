@@ -12,6 +12,7 @@ function noteLinesReducer(noteLinesArray, action){
     case Action.BeginEdit:
       return noteLinesArray.map(line =>{
         if(line.lineNumber === action.payload){
+
           return{...line, isEditing:true};
         }
         else{
@@ -57,6 +58,26 @@ function noteLinesReducer(noteLinesArray, action){
       //console.log("New: "+ JSON.stringify([...oldList, temp].sort((a,b) => {return a.lineNumber - b.lineNumber})))
       return [...oldList, temp].sort((a,b) => {return a.lineNumber - b.lineNumber});
 
+
+    case Action.RemoveLine:
+      const newList = noteLinesArray.filter(line => line.lineNumber != action.payload.lineNumber).map(line =>{
+
+        //console.log("a Line: "+ JSON.stringify(line))
+
+        if(line.lineNumber <= action.payload.lineNumber ){
+
+          return {lineContents:line.lineContents+"", lineNumber:line.lineNumber, marked:"under"}
+
+        }
+        else{
+
+          return{lineContents:line.lineContents+"", lineNumber:line.lineNumber-1, marked:"Over"}
+
+        }
+      })
+      //console.log("New: "+ JSON.stringify([...oldList, temp].sort((a,b) => {return a.lineNumber - b.lineNumber})))
+      return newList.sort((a,b) => {return a.lineNumber - b.lineNumber});
+
     default:
       return noteLinesArray;
 
@@ -73,6 +94,10 @@ function lineCountReducer(lineCountVar, action){
 
     case Action.AddNewLine:
       return (lineCountVar+1);
+
+
+    case Action.RemoveLine:
+      return (lineCountVar-1)
 
 
     default:

@@ -2,12 +2,12 @@ import React, {useEffect} from 'react';
 import './App.css';
 import {useDispatch,useSelector} from 'react-redux';
 import {NoteLine} from './NoteLine';
-import {loadLine, endEdit} from './LineActions';
+import {loadLine, endEdit, beginEdit} from './LineActions';
 import {store} from './LineStore';
 import MathJax from 'react-mathjax';
 
 function App() {
-
+  window.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+0008'||e.keyIdentifier=='Backspace'||e.keyCode==8){if(e.target==document.body){e.preventDefault();return false;}}},true);
 
   const noteLines = useSelector(state => state.noteLines);
   const lineCount = useSelector(state => state.lineCount);
@@ -15,13 +15,13 @@ function App() {
 
   useEffect(() =>{
     dispatch(loadLine({lineNumber: 1, lineContents: ""}))
+    dispatch(beginEdit(1))
   },[]);
 
   //console.log("Pre-sort:" + JSON.stringify(noteLines))
   //console.log(store.getState())
   //const sortedLines = Object.values(noteLines).sort((a,b) => a.lineNumber - b.lineNumber);
   //console.log("Post-sort:" + JSON.stringify(noteLines))
-  var temp = "Equation: $(3\\times 4) \\div (5-3)$"
   return (
     <div className="App">
 
@@ -40,7 +40,7 @@ function App() {
         </div>
 
         <div className="rightMargin">
-        
+            fsf
         </div>
 
       </div>
