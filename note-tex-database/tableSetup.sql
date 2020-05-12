@@ -8,6 +8,7 @@ CREATE TABLE users(
 
 CREATE TABLE noteSheets(
     noteSheet_id SERIAL PRIMARY KEY,
+    noteSheetName TEXT,
     userCreator BIGINT UNSIGNED,
     lineCount INT,
     contents TEXT,
