@@ -7,28 +7,28 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-let credentials = JSON.parse(fs.readFileSync('credentials.json','utf8'));
+let credentials = JSON.parse(fs.readFileSync('../note-tex-database/credentials.json','utf8'));
 let connection = mysql.createConnection(credentials);
 connection.connect();
 
-function rowToNotSheetName(row){
+function rowToNoteSheetName(row){
   return{
-    noteSheetName:row.noteSheetName;
+    noteSheetName:row.noteSheetName
   }
 }
 
 app.get('/noteSheetList/:userName',(request, responce) => {
-  const query = 'SELECT noteSheetName N FROM noteSheets JOIN users U ON N.userCreator = U.userId WHERE isDeleted = 0 AND U.userName = ?'
+  const query = 'SELECT noteSheetName FROM noteSheets JOIN users ON userCreator = userId WHERE isDeleted = 0 AND userName = ?';
   const params = [request.params.userName];
   connection.query(query, params, (error, rows) => {
     responce.send({
       ok: true,
-      memories: row.map(rowToObject)
+      usersNoteSheets: rows.map(rowToNoteSheetName)
     });
   });
 });
 
-const port = 443;
+const port = 1443;
 app.listen(port, () => {
   console.log("Running on port: " + port);
 });
