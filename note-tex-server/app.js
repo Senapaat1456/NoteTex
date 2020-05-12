@@ -17,6 +17,12 @@ function rowToNoteSheetName(row){
   }
 }
 
+function rowToUserId(row){
+  return{
+    userId:row.userId
+  }
+}
+
 app.get('/noteSheetList/:userName',(request, responce) => {
   const query = 'SELECT noteSheetName FROM noteSheets JOIN users ON userCreator = userId WHERE isDeleted = 0 AND userName = ?';
   const params = [request.params.userName];
@@ -40,19 +46,27 @@ app.get('/noteSheet/:userName/:sheetName',(request, responce) => {
   });
 });
 
-app.pos('/noteSheetList',(request, responce) => {
+app.post('/noteSheetList',(request, responce) => {
+  console.log("received request: " + JSON.stringify(request.body));
   const userIdQuery = 'SELECT userId FROM users WHERE userName = ?';
   const userIdParms = [request.body.userName];
-  const id;
-  connection.query(userIdQuery,userIdParms, (errors,rows) =>{
-    userId = rows.userId
-  })
-  const query = 'INSERT INTO noteSheets (noteSheetName, userCreator, lineCount, contents) values (?,?,?,?)';
-  const params = [request.body.sheetName,userId,request.body.lineCount,request.body.contents];
-  connection.query(query, params, (error, result) => {
-    responce.send({
-      ok: true,
-      id: result.insertId
+  console.log("userName: " + request.body.userName);
+  var userId = -1;
+  userId = connection.query(userIdQuery,userIdParms, (errors,rows) =>{
+    console.log(rows[0]);
+    console.log(typeof(rows[0].userId));
+    userId = rows[0].userId;
+    console.log("type of userId: "  + typeof(userId));
+  
+    console.log("fain: " + userId)
+    const query = 'INSERT INTO noteSheets (noteSheetName, userCreator, lineCount, contents) values (?,?,?,?)';
+    const params = [request.body.sheetName,userId,request.body.lineCount,request.body.contents];
+      connection.query(query, params, (error, result) => {
+        console.log(error);
+    	responce.send({
+      	  ok: true,
+      	  id: result.insertId,
+      });
     });
   });
 });
