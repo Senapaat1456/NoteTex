@@ -78,9 +78,33 @@ app.post('/users', (request, repsonce) => {
   const newUserParams = [request.body.userName];
   connection.query(newUserInsert, newUserParams, (error, result) => {
     console.log(error);
+
+    const newUserSheetInsert = "INSERT INTO noteSheets (noteSheetName, userCreator, lineCount, contents) VALUES ('new sheet',?,0,'')";
+    const newUserSheetParams = [result.insertId];
+    connection.query(newUserSheetInsert, newUserSheetParams, (error, result) =>{
+      console.log(error);
+    });
+
     responce.send({
       ok:true,
       id: result.insertId
+    });
+  });
+});
+
+app.post('/noteSheet', (request, repsonce) => {
+  const userIdQuery = 'SELECT userId FROM users WHERE userName = ?';
+  const userIdParms = [request.body.userName];
+  var userId = -1;
+  userId = connection.query(userIdQuery,userIdParms, (errors,rows) =>{
+
+    const newUserSheetInsert = "INSERT INTO noteSheets (noteSheetName, , lineCount, contents) VALUES ('new sheet',?,0,'')";
+    const newUserSheetParams = [userId,request.body.noteSheetName];
+    connection.query(newUserSheetInsert, newUserSheetParams, (error, result) =>{
+      responce.send({
+        ok:true,
+        id: result.insertId
+      });
     });
   });
 });
