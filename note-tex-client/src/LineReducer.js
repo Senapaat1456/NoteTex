@@ -1,18 +1,19 @@
-import {Action} from './LineActions';
+import {LineAction} from './LineActions';
+import {UserAction} from './UserActions'
 const initialState = {
   lineCount: 0,
   noteLines: [],
-  currentLine: {lineContents:"temp"},
+  userName:"",
+  noteSheets:[],
 }
 
 function noteLinesReducer(noteLinesArray, action){
   switch (action.type) {
 
 
-    case Action.BeginEdit:
+    case LineAction.BeginEdit:
       return noteLinesArray.map(line =>{
         if(line.lineNumber === action.payload){
-
           return{...line, isEditing:true};
         }
         else{
@@ -21,7 +22,7 @@ function noteLinesReducer(noteLinesArray, action){
       });
 
 
-    case Action.EndEdit:
+    case LineAction.EndEdit:
       return noteLinesArray.map(line =>{
            if(line.lineNumber === action.payload.lineNumber){
              return action.payload;
@@ -33,11 +34,11 @@ function noteLinesReducer(noteLinesArray, action){
 
 
 
-    case Action.LoadLine:
+    case LineAction.LoadLine:
       return [action.payload, ...noteLinesArray]
 
 
-    case Action.AddNewLine:
+    case LineAction.AddNewLine:
       //console.log("Old: "+ JSON.stringify(noteLinesArray))
       const oldList = noteLinesArray.map(line =>{
 
@@ -59,7 +60,7 @@ function noteLinesReducer(noteLinesArray, action){
       return [...oldList, temp].sort((a,b) => {return a.lineNumber - b.lineNumber});
 
 
-    case Action.RemoveLine:
+    case LineAction.RemoveLine:
       const newList = noteLinesArray.filter(line => line.lineNumber != action.payload.lineNumber).map(line =>{
 
         //console.log("a Line: "+ JSON.stringify(line))
@@ -88,15 +89,15 @@ function lineCountReducer(lineCountVar, action){
   switch (action.type) {
 
 
-    case Action.LoadLine:
+    case LineAction.LoadLine:
       return (lineCountVar+1);
 
 
-    case Action.AddNewLine:
+    case LineAction.AddNewLine:
       return (lineCountVar+1);
 
 
-    case Action.RemoveLine:
+    case LineAction.RemoveLine:
       return (lineCountVar-1)
 
 
@@ -105,10 +106,39 @@ function lineCountReducer(lineCountVar, action){
   }
 }
 
+function userNameReducer(userNameVar, action){
+  switch (action.type){
+
+
+    case UserAction.FinishLogin:
+      return action.payload.userName;
+
+    default:
+      return userNameVar;
+
+  }
+}
+
+function noteSheetsReducer(noteSheetsArray, action){
+  switch (action.type){
+
+
+    case UserAction.BeginNewNoteSheet:
+      return [...noteSheetsArray,{noteSheetName:"new sheet"}]
+
+    case UserAction.FinishLogin:
+      return action.payload.noteSheetList;
+
+    default:
+      return noteSheetsArray;
+  }
+}
 function reducer(state = initialState, action){
     return{
       lineCount: lineCountReducer(state.lineCount, action),
-      noteLines: noteLinesReducer(state.noteLines, action)
+      noteLines: noteLinesReducer(state.noteLines, action),
+      userName: userNameReducer(state.userName, action),
+      noteSheets: noteSheetsReducer(state.noteSheets, action)
     };
 }
 export default reducer;

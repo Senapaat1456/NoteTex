@@ -70,7 +70,7 @@ app.post('/noteSheetList',(request, responce) => {
   });
 });
 
-app.post('/users'), (request, repsonce) => {
+app.post('/users', (request, repsonce) => {
   const newUserInsert = "INSERT INTO users (userName) VALUES (?)";
   const newUserParams = [request.body.userName];
   connection.query(newUserInsert, newUserParams, (error, result) => {

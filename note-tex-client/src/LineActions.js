@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-export const Action = Object.freeze({
+export const LineAction = Object.freeze({
   BeginEdit: 'BeginEdit',
   EndEdit: 'EndEdit',
   LoadLine: 'LoadLine',
@@ -10,56 +10,42 @@ export const Action = Object.freeze({
 
 export function beginEdit(lineNumber){
   return{
-    type: Action.BeginEdit,
+    type: LineAction.BeginEdit,
     payload: lineNumber
   };
 }
 
 export function endEdit(noteLine){
   return{
-    type: Action.EndEdit,
+    type: LineAction.EndEdit,
     payload: noteLine,
   };
 }
 
 export function addNewLine(location){
     return{
-    type: Action.AddNewLine,
+    type: LineAction.AddNewLine,
     payload: location,
   }
 }
 
 export function loadLine(noteLine){
   return {
-    type: Action.LoadLine,
+    type: LineAction.LoadLine,
     payload: noteLine,
   };
 }
 
 export function incrementLineCount(){
   return{
-    type: Action.IncrementLineCount,
+    type: LineAction.IncrementLineCount,
     payload: null
   }
 }
 
 export function removeLine(noteLine){
   return{
-    type: Action.RemoveLine,
+    type: LineAction.RemoveLine,
     payload: noteLine
   }
 }
-
-/*export function newLine(noteLine){
-  return {
-    type: Action.LoadLine,
-    payload: loadLine,
-  };
-}*/
-
-/*export function newLine(){
-  return dispatch => {
-      dispatch(loadMemories(data.memories))
-    }
-  };
-}*/
