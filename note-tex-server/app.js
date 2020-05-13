@@ -19,6 +19,7 @@ function rowToNoteSheetName(row){
 
 function rowToNoteSheet(row){
   return{
+    noteSheetName:row.noteSheetName,
     noteSheet_id:row.noteSheet_id,
     lineCount:row.lineCount,
     contents:row.contents,
@@ -42,7 +43,7 @@ app.get('/noteSheetList/:userName',(request, responce) => {
 //note, the sheet must be owned by the user
 app.get('/noteSheetFind/:userName/:sheetName',(request, responce) => {
   console.log(request.params.userName + " , " + request.params.sheetName);
-  const query = 'SELECT noteSheet_id, lineCount, contents, updatedAt FROM noteSheets JOIN users ON userCreator = userId WHERE isDeleted = 0 AND userName = ? AND noteSheetName = ?';
+  const query = 'SELECT noteSheetName, noteSheet_id, lineCount, contents, updatedAt FROM noteSheets JOIN users ON userCreator = userId WHERE isDeleted = 0 AND userName = ? AND noteSheetName = ?';
   const params = [request.params.userName, request.params.sheetName];
   connection.query(query, params, (error, rows) => {
     console.log(error);
@@ -73,14 +74,16 @@ app.post('/noteSheetList',(request, responce) => {
   });
 });
 
-app.post('/users', (request, repsonce) => {
+app.post('/users', (request, responce) => {
+  console.log("hre")
+  console.log(request.body);
   const newUserInsert = "INSERT INTO users (userName) VALUES (?)";
   const newUserParams = [request.body.userName];
   connection.query(newUserInsert, newUserParams, (error, result) => {
     console.log(error);
-
-    const newUserSheetInsert = "INSERT INTO noteSheets (noteSheetName, userCreator, lineCount, contents) VALUES ('new sheet',?,0,'')";
-    const newUserSheetParams = [result.insertId];
+    const newSheetLines = JSON.stringify([{lineNumber:1,lineContents:"StartTyping"}]);
+    const newUserSheetInsert = "INSERT INTO noteSheets (noteSheetName, userCreator, lineCount, contents) VALUES ('new sheet',?,0,?)";
+    const newUserSheetParams = [result.insertId,newSheetLines];
     connection.query(newUserSheetInsert, newUserSheetParams, (error, result) =>{
       console.log(error);
     });
@@ -109,7 +112,9 @@ app.post('/noteSheet', (request, repsonce) => {
   });
 });
 
-app.patch('/noteSheet', (request, responce) => {
+app.patch('/noteSheetEdit', (request, responce) => {
+  console.log("reeived");
+  console.log("Patch request: " + JSON.stringify(request.body));
   const userIdQuery = 'SELECT userId FROM users WHERE userName = ?';
   const userIdParms = [request.body.userName];
   var userId = -1;
@@ -124,7 +129,7 @@ app.patch('/noteSheet', (request, responce) => {
       });
     });
   });
-  });
+});
 
   app.delete('/noteSheet', (request, responce) =>{
     const userIdQuery = 'SELECT userId FROM users WHERE userName = ?';
