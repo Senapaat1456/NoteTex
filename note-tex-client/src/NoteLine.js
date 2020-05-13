@@ -1,12 +1,10 @@
 import React, {useEffect,useState} from 'react';
 import {useDispatch, useSelector, useStore} from 'react-redux';
-import {beginEdit, endEdit, addNewLine, removeLine} from './LineActions'
+import {startEdit, beginEndEdit, addNewLine, removeLine} from './LineActions'
 import ReactDOMServer from 'react-dom/server';
 import './noteLine.css';
 import MathJax from 'react-mathjax';
 //import {parseLine} from './lineParser'
-
-
 
 export function NoteLine(props){
   //console.log("this line: " + JSON.stringify(props.noteLine) + ", Important: " + props.noteLine.lineContents)
@@ -17,14 +15,14 @@ export function NoteLine(props){
   //useEffect(() => doSth(lineContents))
   const lineCount = props.lineCount
 
-  const onBeginEdit = () =>{
+  const onStartEdit = () =>{
     //alert(lineContents + " , " + noteLine.lineContents)
-    dispatch(beginEdit(noteLine.lineNumber));
+    dispatch(startEdit(noteLine.lineNumber));
   }
 
   const onEndEdit = (typeOfExit) =>{
     //alert(lineContents)
-    dispatch(endEdit({lineNumber:noteLine.lineNumber, lineContents:lineContents}));
+    dispatch(beginEndEdit({lineNumber:noteLine.lineNumber, lineContents:lineContents},props.noteLines,lineCount,props.noteSheet_id,props.userName));
     //alert(lineContents)
     if(lineContents !== "" && typeOfExit === "ENTER"){
       dispatch(addNewLine(noteLine.lineNumber));
@@ -36,21 +34,21 @@ export function NoteLine(props){
       dispatch(removeLine(noteLine));
     }
     if(noteLine.lineNumber != 1){
-      dispatch(beginEdit(noteLine.lineNumber - 1));
+      dispatch(startEdit(noteLine.lineNumber - 1));
     }
   }
 
 const onUpArrow = () => {
   if(noteLine.lineNumber != 1){
-    dispatch(endEdit({lineNumber:noteLine.lineNumber, lineContents:lineContents}));
-    dispatch(beginEdit(noteLine.lineNumber - 1));
+    dispatch(beginEndEdit({lineNumber:noteLine.lineNumber, lineContents:lineContents}));
+    dispatch(startEdit(noteLine.lineNumber - 1));
   }
 }
 
 const onDownArrow = () => {
   if(noteLine.lineNumber != lineCount){
-    dispatch(endEdit({lineNumber:noteLine.lineNumber, lineContents:lineContents}));
-    dispatch(beginEdit(noteLine.lineNumber + 1));
+    dispatch(beginEndEdit({lineNumber:noteLine.lineNumber, lineContents:lineContents}));
+    dispatch(startEdit(noteLine.lineNumber + 1));
   }
 }
 
@@ -74,7 +72,7 @@ const processesKeyPress = (keyCode) =>{
   if(noteLine.isEditing){
     return(
       <span className="lineArea">
-        <input className="inputBox" contentEditable="true"  value={lineContents} onBlur={() => onEndEdit("CURSER")} onKeyDown={event => processesKeyPress(event.keyCode)} onChange={e => {setLineContents(e.target.value)}} ref={input => input && input.focus()}/>
+        <input className="inputBox" value={lineContents} onBlur={() => onEndEdit("CURSER")} onKeyDown={event => processesKeyPress(event.keyCode)} onChange={e => {setLineContents(e.target.value)}} ref={input => input && input.focus()}/>
       </span>
     )
   }else{
@@ -119,7 +117,7 @@ const processesKeyPress = (keyCode) =>{
     //var ReactDOMServer = require('react-dom/server');
     [finalStructure, x] = markdownParser(parsedLineContents,null);
        //alert(lineContents + " : " + ReactDOMServer.renderToStaticMarkup(finalStructure))
-    var lineOutput = <span onClick={onBeginEdit} style={{fontSize:fontSizeArray[headerLevel]}} className ="noteText"> {finalStructure} </span>
+    var lineOutput = <span onClick={onStartEdit} style={{fontSize:fontSizeArray[headerLevel]}} className ="noteText"> {finalStructure} </span>
 
 
 

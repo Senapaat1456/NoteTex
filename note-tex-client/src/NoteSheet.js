@@ -14,7 +14,7 @@ export function NoteSheet(props){
 
   if(noteSheet.isActive){
     return(
-      <div className="noteSheetName" onClick={onLoadNoteSheet} style={{fontSize:40}}>{noteSheet.noteSheetName}</div>
+      <div className="noteSheetName" onClick={onLoadNoteSheet} style={{fontSize:20}}>{noteSheet.noteSheetName}</div>
     )
   }else{
     return(

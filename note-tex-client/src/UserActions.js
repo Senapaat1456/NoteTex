@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 export const UserAction = Object.freeze({
   BeginLogin: 'BeginLogin',
   FinishLogin: 'FinishLogin',
-  BeginLogout: 'BeginLogout',
+  Logout: 'Logout',
   BeginNewUser: 'BeginNewUser',
   BeginLoadSheet:'BeginLoadSheet',
   FinishLoadSheet:'FinishLoadSheet',
@@ -11,7 +11,7 @@ export const UserAction = Object.freeze({
 
 const host = 'http://websystems.senapatiratne.com:1443';
 
-function checkForErrors(responce){
+export function checkForErrors(responce){
   if(!responce.ok){
     throw Error(`${responce.status}:${responce.statusText}`);
   }
@@ -51,15 +51,15 @@ export function beginNewNoteSheet(){
 }
 
 export function beginNewUser(userName){
-  const options = {method: 'POST',headers:{'Content-Type': 'application/json',},body:{"userName":userName},}
+  const newBody = {userName:userName};
+  const options = {method: 'POST', headers:{'Content-Type': 'application/json'}, body:JSON.stringify(newBody)};
   return dispatch => {
     fetch(`${host}/users`,options)
       .then(checkForErrors)
       .then(responce => responce.json())
       .then(data => {
         if(data.ok){
-          beginLogin(userName);
-          beginNewNoteSheet();
+          dispatch(beginLogin(userName));
         }
       })
       .catch(e => console.error(e));
@@ -81,5 +81,12 @@ export function finishLoadSheet(noteSheet){
   return{
     type:UserAction.FinishLoadSheet,
     payload:noteSheet
+  }
+}
+
+export function logout(){
+  return{
+    type:UserAction.Logout,
+    payload:null
   }
 }

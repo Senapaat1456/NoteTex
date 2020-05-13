@@ -1,6 +1,7 @@
 import React, {useEffect,useState} from 'react';
 import {useDispatch, useSelector, useStore} from 'react-redux';
-import {beginLogin,beginNewUser} from './UserActions.js';
+import {beginLogin,beginNewUser,logout} from './UserActions.js';
+import {loadLine} from './LineActions'
 import {NoteSheet} from './NoteSheet';
 
 export function UserBox(props){
@@ -34,6 +35,10 @@ const onNewUser = () =>{
     dispatch(beginNewUser(userName))
   }
 }
+const onLogout = () => {
+  dispatch(logout());
+  dispatch(loadLine({lineNumber: 1, lineContents: ""}))
+}
 
   if(userName == null || userName === ""){
     return(
@@ -50,6 +55,7 @@ const onNewUser = () =>{
       <span className="listBox">
         <div className="noteListHeader">Saved Notes</div>
         {noteSheetList.map(sheet => <NoteSheet key={sheet.noteSheetName} noteSheet={sheet} userName={userName}/>)}
+        <button onClick={onLogout} className="logoutButton"> Logout </button>
       </span>
     )
   }

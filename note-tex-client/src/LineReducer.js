@@ -5,13 +5,14 @@ const initialState = {
   noteLines: [],
   userName:"",
   noteSheets:[],
+  noteSheet_id:0
 }
 
 function noteLinesReducer(noteLinesArray, action){
   switch (action.type) {
 
 
-    case LineAction.BeginEdit:
+    case LineAction.StartEdit:
       return noteLinesArray.map(line =>{
         if(line.lineNumber === action.payload){
           return{...line, isEditing:true};
@@ -31,6 +32,9 @@ function noteLinesReducer(noteLinesArray, action){
              return line;
            }
          });
+
+     case UserAction.Logout:
+      return [];
 
 
 
@@ -81,7 +85,7 @@ function noteLinesReducer(noteLinesArray, action){
 
 
     case UserAction.FinishLoadSheet:
-      return action.payload.contents//.sort((a,b) => {return a.lineNumber - b.lineNumber});
+      return JSON.parse(action.payload.contents)//.sort((a,b) => {return a.lineNumber - b.lineNumber});
 
     default:
       return noteLinesArray;
@@ -109,6 +113,10 @@ function lineCountReducer(lineCountVar, action){
       return action.payload.lineCount;
 
 
+    case UserAction.Logout:
+      return 0;
+
+
     default:
       return lineCountVar;
   }
@@ -120,6 +128,10 @@ function userNameReducer(userNameVar, action){
 
     case UserAction.FinishLogin:
       return action.payload.userName;
+
+
+    case UserAction.Logout:
+      return "";
 
     default:
       return userNameVar;
@@ -134,31 +146,49 @@ function noteSheetsReducer(noteSheetsArray, action){
     case UserAction.BeginNewNoteSheet:
       return [...noteSheetsArray,{noteSheetName:"new sheet"}]
 
+
     case UserAction.FinishLogin:
       return action.payload.noteSheetList;
+
 
     case UserAction.FinishLoadSheet:
       return noteSheetsArray.map(sheet =>{
         if(sheet.noteSheetName === action.payload.noteSheetName){
-          alert("Here")
           return{...sheet, isActive:true};
         }
         else{
-          alert("Here")
           return{...sheet, isActive:false};
         }
       });
+
+
+      case UserAction.Logout:
+        return [];
 
     default:
       return noteSheetsArray;
   }
 }
+
+function noteSheet_idReducer(oldId, action){
+  switch (action.type){
+
+
+    case UserAction.FinishLoadSheet:
+      return action.payload.noteSheet_id;
+
+    default:
+      return oldId;
+  }
+}
+
 function reducer(state = initialState, action){
     return{
       lineCount: lineCountReducer(state.lineCount, action),
       noteLines: noteLinesReducer(state.noteLines, action),
       userName: userNameReducer(state.userName, action),
-      noteSheets: noteSheetsReducer(state.noteSheets, action)
+      noteSheets: noteSheetsReducer(state.noteSheets, action),
+      noteSheet_id: noteSheet_idReducer(state.noteSheet_id, action)
     };
 }
 export default reducer;
