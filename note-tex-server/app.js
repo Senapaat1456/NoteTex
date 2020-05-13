@@ -32,10 +32,16 @@ app.get('/noteSheetList/:userName',(request, responce) => {
   const query = 'SELECT noteSheetName FROM noteSheets JOIN users ON userCreator = userId WHERE isDeleted = 0 AND userName = ?';
   const params = [request.params.userName];
   connection.query(query, params, (error, rows) => {
-    responce.send({
-      ok: true,
-      usersNoteSheets: rows.map(rowToNoteSheetName)
-    });
+    if(rows.length == 0){
+      responce.send({
+        ok: false
+      });
+    }else{
+      responce.send({
+        ok: true,
+        usersNoteSheets: rows.map(rowToNoteSheetName)
+      });
+    }
   });
 });
 

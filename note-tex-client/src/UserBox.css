@@ -1,0 +1,69 @@
+.loginBox{
+  width: 90%;
+  border: 2px solid #2E2F2F;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  background-color: #DCEBEB;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.buttonRow{
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin-top: 5px;
+}
+.userNameBox{
+  width: 80%;
+}
+.loginButton{
+  width: 100%;
+  height:30px;
+  font-size: 100%;
+  padding: 2px;
+}
+.newUserButton{
+  margin-top: 1px;
+  width: 100%;
+  height:30px;
+  padding: 2px;
+  font-size: 100%;
+}
+.loginHeader{
+  font-weight: bold;
+  text-align: center;
+}
+.userNameHeader{
+  font-style: italic;
+}
+.noteListHeader{
+  font-size: 150%;
+  border-bottom: 1px solid #6A6472;
+  margin-bottom: 10px;
+}
+.logoutButton,.deleteButton{
+  margin-top: 30px;
+  width: 90%;
+  height:30px;
+  padding: 2px;
+  font-size: 100%;
+}
+.listBox{
+  width: 90%;
+  border: 2px solid #2E2F2F;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 15px;
+  background-color: #DCEBEB;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.listContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 90%;
+}

@@ -23,27 +23,27 @@ export function startEdit(lineNumber){
 
 export function beginEndEdit(noteLine, noteLines, currentLineCount, currentNoteSheet_id,currentUserName){
   if(currentUserName==null || currentUserName===""){
-    alert("Not here")
     return dispatch => {
       dispatch(finishEndEdit(noteLine))
     }
   }else{
-    alert("here")
-    return dispatch => {
-      const newBody = {editedLine:noteLine.contents,editedLineNumber:noteLine.lineNumber,lineCount:currentLineCount,noteSheet_id:currentNoteSheet_id,userName:currentUserName};
+      const combinedContents = noteLines.map(line =>{
+        if(line.lineNumber === noteLine.lineNumber){
+          return noteLine;
+        }
+        else{
+          return line;
+        }
+      });
+      const newBody = {contents:JSON.stringify(combinedContents),lineCount:currentLineCount,noteSheet_id:currentNoteSheet_id,userName:currentUserName};
       const options = {method: 'PATCH', headers:{'Content-Type': 'application/json'}, body:JSON.stringify(newBody)};
       return dispatch => {
+        dispatch(finishEndEdit(noteLine)) //I know this is out of order, the reason being, if the user has to wait for the server before continuing writing, it can ruin the flow, so its more important to let the user keep working then to make sure the server is perfectly sinked
         fetch(`${host}/noteSheetEdit`,options)
-          .then(responce => responce.json())
-          .then(data => {
-            if(data.ok){
-              dispatch(finishEndEdit(noteLine))
-            }
-          })
-          .catch(e => console.error(e));
+          .then(checkForErrors)
+
       };
-    };
-  }
+    }
 }
 
 

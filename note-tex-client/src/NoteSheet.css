@@ -1,0 +1,24 @@
+.noteSheetNameActive{
+  width: 90%;
+  padding-left: 3px;
+  border-left: 2px solid #6A6472;
+  background-color: #ACBDBA;
+  margin-bottom: 4px;
+  font-size: 14px;
+  text-align: left;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  text-shadow: 10 10 5px #DCEBEB;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+
+}
+.noteSheetName{
+  width: 90%;
+  padding-left: 3px;
+  border-left: 2px solid #A599B5;
+  margin-bottom: 4px;
+  font-size: 14px;
+  text-align: left;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
