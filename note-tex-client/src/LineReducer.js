@@ -79,6 +79,10 @@ function noteLinesReducer(noteLinesArray, action){
       //console.log("New: "+ JSON.stringify([...oldList, temp].sort((a,b) => {return a.lineNumber - b.lineNumber})))
       return newList.sort((a,b) => {return a.lineNumber - b.lineNumber});
 
+
+    case UserAction.FinishLoadSheet:
+      return action.payload.contents//.sort((a,b) => {return a.lineNumber - b.lineNumber});
+
     default:
       return noteLinesArray;
 
@@ -99,6 +103,10 @@ function lineCountReducer(lineCountVar, action){
 
     case LineAction.RemoveLine:
       return (lineCountVar-1)
+
+
+    case UserAction.FinishLoadSheet:
+      return action.payload.lineCount;
 
 
     default:
@@ -128,6 +136,18 @@ function noteSheetsReducer(noteSheetsArray, action){
 
     case UserAction.FinishLogin:
       return action.payload.noteSheetList;
+
+    case UserAction.FinishLoadSheet:
+      return noteSheetsArray.map(sheet =>{
+        if(sheet.noteSheetName === action.payload.noteSheetName){
+          alert("Here")
+          return{...sheet, isActive:true};
+        }
+        else{
+          alert("Here")
+          return{...sheet, isActive:false};
+        }
+      });
 
     default:
       return noteSheetsArray;

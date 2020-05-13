@@ -4,9 +4,8 @@ export const UserAction = Object.freeze({
   FinishLogin: 'FinishLogin',
   BeginLogout: 'BeginLogout',
   BeginNewUser: 'BeginNewUser',
-  BeginLoadDocumentList: 'BeginLoadDocumentList',
-  FinishLoadDocumentList:'FinishLoadDocumentList',
-  BeginLoadDocument:'BeginLoadDocument',
+  BeginLoadSheet:'BeginLoadSheet',
+  FinishLoadSheet:'FinishLoadSheet',
   BeginNewNoteSheet:'BeginNewNoteSheet',
 })
 
@@ -65,4 +64,22 @@ export function beginNewUser(userName){
       })
       .catch(e => console.error(e));
   };
+}
+
+export function beginLoadSheet(userName, noteSheet){
+  return dispatch => {
+      fetch(`${host}/noteSheetFind/${userName}/${noteSheet.noteSheetName}`).then(checkForErrors).then(responce => responce.json()).then(data => {
+          if(data.ok){
+            alert(JSON.stringify(data.requestedNoteSheet[0]))
+            dispatch(finishLoadSheet(data.requestedNoteSheet[0]))
+          }
+        }).catch(e => console.error(e));
+  }
+}
+
+export function finishLoadSheet(noteSheet){
+  return{
+    type:UserAction.FinishLoadSheet,
+    payload:noteSheet
+  }
 }

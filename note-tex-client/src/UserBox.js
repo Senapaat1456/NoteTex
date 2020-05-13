@@ -49,7 +49,7 @@ const onNewUser = () =>{
     return(
       <span className="listBox">
         <div className="noteListHeader">Saved Notes</div>
-        {noteSheetList.map(sheet => <NoteSheet noteSheet={sheet} />)}
+        {noteSheetList.map(sheet => <NoteSheet key={sheet.noteSheetName} noteSheet={sheet} userName={userName}/>)}
       </span>
     )
   }
