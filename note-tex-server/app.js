@@ -40,10 +40,10 @@ app.get('/noteSheetList/:userName',(request, responce) => {
 
 //get a noteSheet that belong to a user
 //note, the sheet must be owned by the user
-app.get('/noteSheet/:userName',(request, responce) => {
-  console.log(request.params.userName + " , " + request.body.sheetName);
+app.get('/noteSheetFind/:userName/:sheetName',(request, responce) => {
+  console.log(request.params.userName + " , " + request.params.sheetName);
   const query = 'SELECT noteSheet_id, lineCount, contents, updatedAt FROM noteSheets JOIN users ON userCreator = userId WHERE isDeleted = 0 AND userName = ? AND noteSheetName = ?';
-  const params = [request.params.userName, request.body.sheetName];
+  const params = [request.params.userName, request.params.sheetName];
   connection.query(query, params, (error, rows) => {
     console.log(error);
     console.log(rows);
