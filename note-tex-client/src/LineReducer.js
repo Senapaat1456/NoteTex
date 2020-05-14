@@ -6,6 +6,7 @@ const initialState = {
   userName:"",
   noteSheets:[],
   noteSheet_id:0,
+  isWaiting:false,
 }
 
 function noteLinesReducer(noteLinesArray, action){
@@ -192,8 +193,26 @@ function noteSheet_idReducer(oldId, action){
   }
 }
 
+function isWaitingReducer(oldState, action){
+  switch (action.type) {
+
+
+    case UserAction.StartWaiting:
+      return true;
+
+
+    case UserAction.StopWaiting:
+      return false;
+
+
+    default:
+      return oldState;
+  }
+}
+
 function reducer(state = initialState, action){
     return{
+      isWaiting: isWaitingReducer(state.isWaiting, action),
       lineCount: lineCountReducer(state.lineCount, action),
       noteLines: noteLinesReducer(state.noteLines, action),
       userName: userNameReducer(state.userName, action),

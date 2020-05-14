@@ -16,6 +16,7 @@ function App() {
   const currentUserName = useSelector(state => state.userName);
   const currentNoteSheet_id = useSelector(state => state.noteSheet_id);
   const dispatch = useDispatch();
+  const isWaiting = useSelector(state => state.isWaiting)
 
   useEffect(() =>{
     dispatch(loadLine({lineNumber: 1, lineContents: ""}));
@@ -24,7 +25,7 @@ function App() {
 
   return (
     <div className="App">
-
+      {isWaiting && <div className="waitingWheel"> <div className="innerWheel"> <div className="innerInnerWheel"/> </div></div>}
       <div className="header">
         <div className="title"> Note-Tex </div>
       </div>
