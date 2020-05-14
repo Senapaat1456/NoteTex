@@ -94,11 +94,12 @@ export function beginLogin(userName){
         .then(data => {
           if(data.ok){
             dispatch(finishLogin(data.usersNoteSheets,userName));
-            dispatch(stopWaiting());
+
           }
           else{
             alert("Login Failed. Try Again. Click 'New User' if making you are making a new acount.");
           }
+          dispatch(stopWaiting());
         })
         .catch(e => console.error(e));
   };
