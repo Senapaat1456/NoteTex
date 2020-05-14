@@ -93,12 +93,6 @@ export function finishLogin(usersNoteSheets, userName){
   };
 }
 
-export function beginNewNoteSheet(){
-  return{
-    type: UserAction.BeginNewNoteSheet,
-    payload:1
-  }
-}
 
 export function beginNewUser(userName){
   const newBody = {userName:userName};

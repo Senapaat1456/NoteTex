@@ -22,7 +22,6 @@ function App() {
   useEffect(() =>{
     dispatch(loadLine({lineNumber: 1, lineContents: ""}));
     dispatch(startEdit(1));
-    dispatch(beginNewNoteSheet())
   },[dispatch]);
 
   //console.log("Pre-sort:" + JSON.stringify(noteLines))

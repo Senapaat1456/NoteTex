@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import {useDispatch, useSelector, useStore} from 'react-redux';
-import {beginLogin,beginNewUser,logout,beginDelete} from './UserActions.js';
+import {beginLogin,beginNewUser,logout,beginDelete,beginNewNoteSheet} from './UserActions.js';
 import {loadLine} from './LineActions';
 import {NoteSheet} from './NoteSheet';
 import './UserBox.css';
@@ -46,8 +46,13 @@ const onDelete = () => {
 }
 
 var newSheetName = "";
-const onNewSheet(){
-  dispatch(beginNewNoteSheet(newSheetName,userName))
+const onNewSheet = () => {
+  if(newSheetName == null || newSheetName === ""){
+    const box = document.getElementsByClassName('newSheetInput');
+    box[0].style.borderColor = "red";
+  }else{
+    dispatch(beginNewNoteSheet(newSheetName,userName))
+  }
 }
 
   if(userName == null || userName === ""){
@@ -71,7 +76,7 @@ const onNewSheet(){
           {noteSheetList.map(sheet => <NoteSheet key={sheet.noteSheetName} noteSheet={sheet} userName={userName}/>)}
         </span>
         <button className="deleteButton" onClick={onDelete}> Delete </button>
-        <button className="newSheetButton" onClick={onNewSheet()}> New Sheet </button>
+        <button className="newSheetButton" onClick={onNewSheet}> New Sheet </button>
         <input className="newSheetInput" onChange={e => newSheetName = e.target.value}/>
         <button onClick={onLogout} className="logoutButton"> Logout </button>
 
