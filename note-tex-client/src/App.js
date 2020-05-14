@@ -15,7 +15,7 @@ function App() {
   const noteLines = useSelector(state => state.noteLines);
   const lineCount = useSelector(state => state.lineCount);
   const currentUserName = useSelector(state => state.userName);
-  const noteSheetList = useSelector(state => state.noteSheetList);
+  const noteSheetList = useSelector(state => state.noteSheets);
   const currentNoteSheet_id = useSelector(state => state.noteSheet_id);
   const dispatch = useDispatch();
 
@@ -40,7 +40,6 @@ function App() {
       <div className="middle">
 
         <div className="leftMargin">
-          {currentUserName}
         </div>
 
           <div className="body">
@@ -48,7 +47,7 @@ function App() {
         </div>
 
         <div className="rightMargin">
-          <UserBox userName={currentUserName}/>
+          <UserBox userName={currentUserName} currentNoteSheet_id={currentNoteSheet_id}/>
         </div>
 
       </div>

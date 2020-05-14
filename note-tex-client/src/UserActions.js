@@ -6,7 +6,8 @@ export const UserAction = Object.freeze({
   BeginNewUser: 'BeginNewUser',
   BeginLoadSheet:'BeginLoadSheet',
   FinishLoadSheet:'FinishLoadSheet',
-  BeginNewNoteSheet:'BeginNewNoteSheet',
+  FinishNewNoteSheet:'FinishNewNoteSheet',
+  FinishDelete:'FinishDelete',
 })
 
 const host = 'http://websystems.senapatiratne.com:1443';
@@ -16,6 +17,55 @@ export function checkForErrors(responce){
     throw Error(`${responce.status}:${responce.statusText}`);
   }
   return responce;
+}
+
+export function beginNewNoteSheet(newNoteSheetName,userName){
+  return dispatch => {
+    const newBody = {userName:userName,sheetName:newNoteSheetName};
+    const options = {method: 'POST', headers:{'Content-Type': 'application/json'}, body:JSON.stringify(newBody)};
+    fetch(`${host}/noteSheetList`,options)
+      .then(checkForErrors)
+      .then(responce => responce.json())
+      .then(data => {
+        if(data.ok){
+          dispatch(finishNewNoteSheet(newNoteSheetName));
+        }
+
+      })
+      .catch(e => console.error(e));
+  }
+}
+
+export function finishNewNoteSheet(newNoteSheetName){
+  return{
+    type:UserAction.FinishNewNoteSheet,
+    payload:{noteSheetName:newNoteSheetName}
+  }
+}
+
+
+export function beginDelete(userName,currentNoteSheet_id){
+  return dispatch => {
+      const newBody = {userName:userName,noteSheet_id:currentNoteSheet_id};
+      const options = {method: 'DELETE', headers:{'Content-Type': 'application/json'}, body:JSON.stringify(newBody)};
+      fetch(`${host}/noteSheet`,options)
+        .then(checkForErrors)
+        .then(responce => responce.json())
+        .then(data => {
+          if(data.ok){
+            dispatch(finishDelete(currentNoteSheet_id));
+          }
+
+        })
+        .catch(e => console.error(e));
+  };
+}
+
+export function finishDelete(currentNoteSheet_id){
+  return{
+    type: UserAction.FinishDelete,
+    payload: currentNoteSheet_id
+  }
 }
 
 export function beginLogin(userName){
@@ -28,7 +78,7 @@ export function beginLogin(userName){
             dispatch(finishLogin(data.usersNoteSheets,userName));
           }
           else{
-            alert("Login Failed");
+            alert("Login Failed. Try Again. Click 'New User' if making you are making a new acount.");
           }
         })
         .catch(e => console.error(e));

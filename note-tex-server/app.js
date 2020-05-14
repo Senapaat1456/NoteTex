@@ -68,8 +68,8 @@ app.post('/noteSheetList',(request, responce) => {
   var userId = -1;
   userId = connection.query(userIdQuery,userIdParms, (errors,rows) =>{
     userId = rows[0].userId;
-    const query = 'INSERT INTO noteSheets (noteSheetName, userCreator, lineCount, contents) values (?,?,?,?)';
-    const params = [request.body.sheetName,userId,request.body.lineCount,request.body.contents];
+    const query = 'INSERT INTO noteSheets (noteSheetName, userCreator, lineCount, contents) values (?,?,0,[])';
+    const params = [request.body.sheetName,userId];
       connection.query(query, params, (error, result) => {
         console.log(error);
     	responce.send({
@@ -101,23 +101,6 @@ app.post('/users', (request, responce) => {
   });
 });
 
-app.post('/noteSheet', (request, repsonce) => {
-  const userIdQuery = 'SELECT userId FROM users WHERE userName = ?';
-  const userIdParms = [request.body.userName];
-  var userId = -1;
-  userId = connection.query(userIdQuery,userIdParms, (errors,rows) =>{
-
-    const newUserSheetInsert = "INSERT INTO noteSheets (noteSheetName, , lineCount, contents) VALUES ('new sheet',?,0,'')";
-    const newUserSheetParams = [userId,request.body.noteSheetName];
-    connection.query(newUserSheetInsert, newUserSheetParams, (error, result) =>{
-      responce.send({
-        ok:true,
-        id: result.insertId
-      });
-    });
-  });
-});
-
 app.patch('/noteSheetEdit', (request, responce) => {
   console.log("reeived");
   console.log("Patch request: " + JSON.stringify(request.body));
@@ -137,24 +120,24 @@ app.patch('/noteSheetEdit', (request, responce) => {
   });
 });
 
-  app.delete('/noteSheet', (request, responce) =>{
-    const userIdQuery = 'SELECT userId FROM users WHERE userName = ?';
-    const userIdParms = [request.body.userName];
-    var userId = -1;
-    userId = connection.query(userIdQuery,userIdParms, (errors,rows) =>{
-      console.log("Error spot 1: " + errors);
-      userId = rows[0].userId;
-      console.log("Id: " + userId);
-      const noteSheetDelete = 'UPDATE noteSheets SET isDeleted = 1, updatedAt = CURRENT_TIMESTAMP WHERE noteSheet_id = ? AND userCreator = ?'
-      const params = [request.body.noteSheet_id, userId];
-        connection.query(noteSheetDelete, params, (error, result) => {
-          console.log("Error Log 2: " + error);
-        responce.send({
-            ok: true,
-        });
+app.delete('/noteSheet', (request, responce) =>{
+  const userIdQuery = 'SELECT userId FROM users WHERE userName = ?';
+  const userIdParms = [request.body.userName];
+  var userId = -1;
+  userId = connection.query(userIdQuery,userIdParms, (errors,rows) =>{
+    console.log("Error spot 1: " + errors);
+    userId = rows[0].userId;
+    console.log("Id: " + userId);
+    const noteSheetDelete = 'UPDATE noteSheets SET isDeleted = 1, updatedAt = CURRENT_TIMESTAMP WHERE noteSheet_id = ? AND userCreator = ?'
+    const params = [request.body.noteSheet_id, userId];
+      connection.query(noteSheetDelete, params, (error, result) => {
+        console.log("Error Log 2: " + error);
+      responce.send({
+          ok: true,
       });
     });
   });
+});
 
 
 const port = 1443;

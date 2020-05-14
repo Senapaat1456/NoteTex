@@ -12,6 +12,10 @@ function noteLinesReducer(noteLinesArray, action){
   switch (action.type) {
 
 
+    case UserAction.FinishDelete:
+      return [];
+
+
     case LineAction.StartEdit:
       return noteLinesArray.map(line =>{
         if(line.lineNumber === action.payload){
@@ -97,6 +101,10 @@ function lineCountReducer(lineCountVar, action){
   switch (action.type) {
 
 
+    case UserAction.FinishDelete:
+      return 0;
+
+
     case LineAction.LoadLine:
       return (lineCountVar+1);
 
@@ -141,6 +149,14 @@ function userNameReducer(userNameVar, action){
 
 function noteSheetsReducer(noteSheetsArray, action){
   switch (action.type){
+
+
+    case UserAction.FinishNewNoteSheet:
+      return[...noteSheetsArray, action.payload]
+
+
+    case UserAction.FinishDelete:
+      return noteSheetsArray.filter(sheet => !sheet.isActive);
 
 
     case UserAction.BeginNewNoteSheet:
