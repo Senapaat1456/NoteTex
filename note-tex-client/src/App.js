@@ -39,6 +39,7 @@ function App() {
       <div className="middle">
 
         <div className="leftMargin">
+          {JSON.stringify(noteSheetList)}
         </div>
 
           <div className="body">
