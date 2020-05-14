@@ -68,8 +68,9 @@ app.post('/noteSheetList',(request, responce) => {
   var userId = -1;
   userId = connection.query(userIdQuery,userIdParms, (errors,rows) =>{
     userId = rows[0].userId;
-    const query = 'INSERT INTO noteSheets (noteSheetName, userCreator, lineCount, contents) values (?,?,0,[])';
-    const params = [request.body.sheetName,userId];
+    const newLine = '[{lineNumber: 1, lineContents: ""}]'
+    const query = 'INSERT INTO noteSheets (noteSheetName, userCreator, lineCount, contents) values (?,?,0,?)';
+    const params = [request.body.sheetName,userId,newLine];
       connection.query(query, params, (error, result) => {
         console.log(error);
     	responce.send({
