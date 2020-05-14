@@ -1,7 +1,7 @@
-import React, {useEffect,useState} from 'react';
-import {useDispatch, useSelector, useStore} from 'react-redux';
+import React from 'react';
+import {useDispatch} from 'react-redux';
 import {beginLoadSheet} from './UserActions.js'
-import './NoteSheet.css';
+import './css/NoteSheet.css';
 
 
 export function NoteSheet(props){

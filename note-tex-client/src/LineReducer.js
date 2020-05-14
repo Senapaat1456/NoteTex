@@ -5,7 +5,7 @@ const initialState = {
   noteLines: [],
   userName:"",
   noteSheets:[],
-  noteSheet_id:0
+  noteSheet_id:0,
 }
 
 function noteLinesReducer(noteLinesArray, action){
@@ -47,10 +47,8 @@ function noteLinesReducer(noteLinesArray, action){
 
 
     case LineAction.AddNewLine:
-      //console.log("Old: "+ JSON.stringify(noteLinesArray))
       const oldList = noteLinesArray.map(line =>{
 
-        //console.log("a Line: "+ JSON.stringify(line))
 
         if(line.lineNumber <= action.payload){
 
@@ -64,14 +62,12 @@ function noteLinesReducer(noteLinesArray, action){
         }
       })
       const temp = {lineNumber:action.payload+1, lineContents:"", isEditing:true, marked:"new"}
-      //console.log("New: "+ JSON.stringify([...oldList, temp].sort((a,b) => {return a.lineNumber - b.lineNumber})))
       return [...oldList, temp].sort((a,b) => {return a.lineNumber - b.lineNumber});
 
 
     case LineAction.RemoveLine:
-      const newList = noteLinesArray.filter(line => line.lineNumber != action.payload.lineNumber).map(line =>{
+      const newList = noteLinesArray.filter(line => line.lineNumber !== action.payload.lineNumber).map(line =>{
 
-        //console.log("a Line: "+ JSON.stringify(line))
 
         if(line.lineNumber <= action.payload.lineNumber ){
 
@@ -84,13 +80,11 @@ function noteLinesReducer(noteLinesArray, action){
 
         }
       })
-      //console.log("New: "+ JSON.stringify([...oldList, temp].sort((a,b) => {return a.lineNumber - b.lineNumber})))
       return newList.sort((a,b) => {return a.lineNumber - b.lineNumber});
 
 
     case UserAction.FinishLoadSheet:
-      return JSON.parse(action.payload.contents)//.sort((a,b) => {return a.lineNumber - b.lineNumber});
-
+      return JSON.parse(action.payload.contents)
     default:
       return noteLinesArray;
 
@@ -204,7 +198,7 @@ function reducer(state = initialState, action){
       noteLines: noteLinesReducer(state.noteLines, action),
       userName: userNameReducer(state.userName, action),
       noteSheets: noteSheetsReducer(state.noteSheets, action),
-      noteSheet_id: noteSheet_idReducer(state.noteSheet_id, action)
+      noteSheet_id: noteSheet_idReducer(state.noteSheet_id, action),
     };
 }
 export default reducer;

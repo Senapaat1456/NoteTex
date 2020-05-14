@@ -15,7 +15,7 @@
   width: 90%;
   margin-top: 5px;
 }
-.userNameBox{
+.userNameBox,.newSheetInput{
   width: 80%;
 }
 .loginButton{
@@ -34,15 +34,20 @@
 .loginHeader{
   font-weight: bold;
   text-align: center;
+  border-top: 2px solid #A599B5;
+  border-bottom: 2px solid #A599B5;
+  width:90%;
+  margin-bottom: 10px;
 }
 .userNameHeader{
   font-style: italic;
 }
 .noteListHeader{
   font-size: 150%;
-  border-bottom: 1px solid #6A6472;
   margin-bottom: 10px;
   text-align: center;
+  border-top: 2px solid #A599B5;
+  border-bottom: 2px solid #A599B5
 }
 .newSheetButton,.deleteButton{
   margin-top: 1px;

@@ -1,17 +1,15 @@
-import React, {useEffect,useState} from 'react';
-import {useDispatch, useSelector, useStore} from 'react-redux';
+import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {beginLogin,beginNewUser,logout,beginDelete,beginNewNoteSheet} from './UserActions.js';
 import {loadLine} from './LineActions';
 import {NoteSheet} from './NoteSheet';
-import './UserBox.css';
+import './css/UserBox.css';
 
 export function UserBox(props){
 
   var userName = props.userName;
   const currentNoteSheet_id = props.currentNoteSheet_id;
   const noteSheetList = useSelector(state => state.noteSheets  );
-  //var noteSheetList = props.noteSheetList;
-//      useEffect(() => { setNoteSheetList(props.noteSheetList) }, [props.noteSheetList]);
 
   const dispatch = useDispatch();
 
