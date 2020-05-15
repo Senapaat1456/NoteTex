@@ -11,7 +11,7 @@ export const UserAction = Object.freeze({
   StopWaiting:'StopWaiting',
 })
 
-const host = 'http://websystems.senapatiratne.com:1443';
+const host = 'https://websystems.senapatiratne.com:5443';
 
 
 export function startWaiting(){
